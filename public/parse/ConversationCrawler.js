@@ -17,11 +17,14 @@ define(["jquery", "parse/ImportAndParse"], function($, ImportAndParse) {
    *   totalReceived: {Number}
    */
   return function(texts) {
-    var conversations = [], convo = [];
+    var conversations = [],
+        convo = [],
+        id = 0;
     for (var i=0; i < texts.length; i++) {
       if (texts[i][S.MIN_SINCE_PREV] > MAX_CONVERSATION_CUTOFF) {
 
         var stats = {
+          id: ++id,
           totalNumChars: 0,
           totalNumWords: 0,
           totalSent: 0,
