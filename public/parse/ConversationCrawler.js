@@ -21,7 +21,7 @@ define(["jquery", "parse/ImportAndParse"], function($, ImportAndParse) {
         convo = [],
         id = 0;
     for (var i=0; i < texts.length; i++) {
-      if (texts[i][S.MIN_SINCE_PREV] > MAX_CONVERSATION_CUTOFF) {
+      if (texts[i].minSincePrev > MAX_CONVERSATION_CUTOFF) {
 
         var stats = {
           id: ++id,
@@ -32,13 +32,13 @@ define(["jquery", "parse/ImportAndParse"], function($, ImportAndParse) {
         };
 
         convo.map(function(txt) {
-          stats.totalNumChars += txt[S.NUM_CHARS];
-          stats.totalNumWords += txt[S.NUM_WORDS];
-          stats.totalSent     += (txt[S.IS_SENT] ? 1 : 0);
-          stats.totalReceived += (txt[S.IS_SENT] ? 0 : 1);
+          stats.totalNumChars += txt.numChars;
+          stats.totalNumWords += txt.numWords;
+          stats.totalSent     += (txt.isSent ? 1 : 0);
+          stats.totalReceived += (txt.isSent ? 0 : 1);
         });
 
-        stats.durationMinutes = Math.round( (convo[convo.length - 1][S.TEXT_TS] - convo[0][S.TEXT_TS]) / 1000 / 60 );
+        stats.durationMinutes = Math.round( (convo[convo.length - 1].timestamp - convo[0].timestamp) / 1000 / 60 );
         stats.texts = convo;
 
         conversations.push(stats);

@@ -5,7 +5,12 @@ define(["jquery", "backbone"], function($, Backbone) {
       .attr("width", 700)
       .attr("height", 400);
 
-      this.plotArea = this.svg.append("g");
+      this.plotArea = this.svg.append("g").classed("plot-area", true);
+      this.danceArea = this.svg.append("g").classed("dance-area", true);
+
+    },
+
+    renderDance: function(conversation) {
 
     },
 
@@ -13,7 +18,7 @@ define(["jquery", "backbone"], function($, Backbone) {
      *
      * @param {Array(Conversation)} conversations List of conversations from the ConversationCrawler
      * @param {Object} options
-     *   [colorScale]: {d3.scale(conversation)} Scale function that given a conversation, spits out color for it
+     *   [colorScale]: {d3.scale(conversation)} Scale function that given a conversation, spits out color for it (may need an extractor wrapper around the d3.scale)
      */
     render: function(conversations, options) {
       if (!conversations)
@@ -43,12 +48,7 @@ define(["jquery", "backbone"], function($, Backbone) {
       .attr('r', options.r || 2)
       .attr("cx", function(d) { return scales.x(d.durationMinutes); })
       .attr("cy", function(d) { return scales.y(d.totalSent + d.totalReceived); })
-      .attr('fill', function(d) {
-        if (!options.colorScale)
-          return "steelblue";
-
-        return options.colorScale(d);
-      })
+      .attr('fill', function(d) { return options.colorScale ? options.colorScale(d) : "steelblue"; });
 
       return this;
     }

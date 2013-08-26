@@ -4,14 +4,13 @@ define(["jquery"], function($) {
 
   d3.tsv('data/texts.tsv',
     function(d) {
-      // Return just arrays instead of objects... 27k rows, so save some memory
-      return [
-        new Date(d.text_ts),
-        d.s_r === "SNT",
-        +d.num_chars,
-        +d.num_words,
-        +d.min_since_prev || -1
-      ];
+      return {
+        timestamp: new Date(d.text_ts),
+        isSent: d.s_r === "SNT",
+        numChars: +d.num_chars,
+        numWords: +d.num_words,
+        minSincePrev: +d.min_since_prev || -1
+      };
     },
     function(error, rows) {
       if (error) {
@@ -25,14 +24,6 @@ define(["jquery"], function($) {
 
   console.log("[ImportAndParse] Requesting data");
 
-  var ret = data.promise();
-  ret.schema = {
-    TEXT_TS: 0,
-    IS_SENT: 1,
-    NUM_CHARS: 2,
-    NUM_WORDS: 3,
-    MIN_SINCE_PREV: 4
-  };
-  return ret;
+  return data.promise();
 
 });
